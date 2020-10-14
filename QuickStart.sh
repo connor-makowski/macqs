@@ -1,32 +1,73 @@
 #!/bin/bash
 echo "Only use on macOS"
 
-echo "In System Preferences > Users & Groups"
-echo "Cmd + Click on your name and go to Advanced Options"
-echo "Make sure your login shell is /bin/bash"
-echo "=============="
-echo "Is your login shell /bin/bash? (y/n)"
-read BashSetup
-if ["$BashSetup" == "n"];
+cd "`dirname $0`"
+
+if [ "$(which brew)" != "/usr/local/bin/brew" ];
 then
-  echo ""
-  echo "Setup Choices:"
-  echo "=============="
-else
-  echo "Make sure your login shell is /bin/bash."
-  echo "Exiting Process."
-  exit 1
+  echo "Brew Must be installed to continue: Install Brew? (y/n)"
+  read Brew
+  if [ "$Brew" == "y" ];
+  then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  else
+    echo "Exiting Process."
+    exit 1
+  fi
 fi
 
-echo "Brew Must be installed to continue: Install Brew? (y/n)"
-read Brew
-if [ "$Brew" == "y" ];
+if [ "$(which bash)" != "/usr/local/bin/bash" ];
 then
-  :
-else
-  echo "Exiting Process."
-  exit 1
+  echo "Bash must be installed (via brew) to continue: Install bash? (y/n)"
+  read Bash
+  if [ "$Bash" == "y" ];
+  then
+    brew install bash
+  else
+    echo "Exiting Process."
+    exit 1
+  fi
 fi
+
+BASH_LOCATION=/usr/local/bin/bash
+if [ "$SHELL" != "$BASH_LOCATION" ];
+then
+  echo "Bash (from brew located at $BASH_LOCATION) must be your default shell to continue: Set bash as your default shell? (y/n)"
+  read DefaultBash
+  if [ "$DefaultBash" == "y" ];
+  then
+    if ! [ -f "$BASH_LOCATION" ];
+    then
+      echo "$BASH_LOCATION does not exist. Make sure bash is installed with brew at $BASH_LOCATION"
+      exit 1
+    fi
+    if ! grep -Fxq "$BASH_LOCATION" /etc/shells ;
+      then
+        echo "You must have $BASH_LOCATION as a default login shell in /etc/shells. Add it now to continue (sudo required)? (y/n)"
+        read DefaultBashShell
+        if [ "$DefaultBashShell" == "y" ];
+          then
+            echo "$BASH_LOCATION" | sudo tee -a /etc/shells
+          else
+            echo "Exiting Process."
+            exit 1
+        fi
+    fi
+    echo "Setting $BASH_LOCATION as your default shell. You will need to provide sudo privledges for this."
+    chsh -s $BASH_LOCATION
+    echo "Reloading your terminal to account for changes and continuing where you left off"
+    echo "Please use the new terminal window to finish this process. You can now exit from this terminal."
+    open -a Terminal.app ./QuickStart.sh && exit 1
+    exit 1
+  else
+    echo "Exiting Process."
+    exit 1
+  fi
+fi
+
+echo ""
+echo "Setup Choices:"
+echo "=============="
 
 echo "Generate Git Credentials? (y/n)"
 read Git
@@ -37,17 +78,11 @@ read Py3
 echo "Setup Python Virtualenvs? (y/n)"
 read PyVenv
 
-echo "Setup NVM and Node v12? (y/n)"
+echo "Setup Node (NVM, Node v12, NPM and Yarn)? (y/n)"
 read NodeJS
 
 echo "Setup remote services (openVPN and SSH)? (y/n)"
 read Remote
-
-echo "Setup PostgreSQL? (y/n)"
-read PostgreSQL
-
-echo "Setup MySQL? (y/n)"
-read MySQL
 
 echo "=============="
 echo "Are all above Selections Correct? (y/n)"

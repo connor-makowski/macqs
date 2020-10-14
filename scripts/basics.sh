@@ -12,11 +12,13 @@ else
   source $BASH_PROFILE
 fi
 
-echo "Installing Brew"
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+if [ -f ~/.bash_aliases ];
+then
+    echo "~/.bash_aliases exists"
+  else
+    echo "~/.bash_aliases does not exist. Creating one."
+    touch ~/.bash_aliases
+fi
 
-echo "Set up git default to not track filemodes"
+echo "Set git default to not track filemodes"
 git config --global core.filemode false
-
-echo "Make sure ~/.bash_aliases exists"
-touch ~/.bash_aliases
