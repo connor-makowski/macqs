@@ -3,7 +3,13 @@ echo "Only use on macOS"
 
 cd "`dirname $0`"
 
-if [ "$(which brew)" != "/usr/local/bin/brew" ];
+BREW_BIN="/opt/homebrew/bin"
+BASH_LOCATION="$BREW_BIN/bash"
+BREW_LOCATION="$BREW_BIN/brew"
+
+PATH=$BREW_BIN:$PATH
+
+if [ "$(which brew)" != "$BREW_LOCATION" ];
 then
   echo "Brew Must be installed to continue: Install Brew? (y/n)"
   read Brew
@@ -16,7 +22,7 @@ then
   fi
 fi
 
-if [ "$(which bash)" != "/usr/local/bin/bash" ];
+if [ "$(which bash)" != "$BASH_LOCATION" ];
 then
   echo "Bash must be installed (via brew) to continue: Install bash? (y/n)"
   read Bash
@@ -29,7 +35,6 @@ then
   fi
 fi
 
-BASH_LOCATION=/usr/local/bin/bash
 if [ "$SHELL" != "$BASH_LOCATION" ];
 then
   echo "Bash (from brew located at $BASH_LOCATION) must be your default shell to continue: Set bash as your default shell? (y/n)"
@@ -65,6 +70,7 @@ then
   fi
 fi
 
+
 echo ""
 echo "Setup Choices:"
 echo "=============="
@@ -78,7 +84,7 @@ read Py3
 echo "Setup Python Virtualenvs? (y/n)"
 read PyVenv
 
-echo "Setup Node (NVM, Node v12, NPM and Yarn)? (y/n)"
+echo "Setup Node (NVM, Node v14(via NVM), NPM (via NVM) and Yarn(via brew))? (y/n)"
 read NodeJS
 
 echo "Setup remote services (openVPN and SSH)? (y/n)"

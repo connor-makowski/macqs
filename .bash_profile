@@ -41,6 +41,9 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+BREW_BIN="/opt/homebrew/bin"
+PATH=$BREW_BIN:$PATH
+
 # Source Alias definitions.
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
