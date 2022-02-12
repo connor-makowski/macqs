@@ -5,12 +5,14 @@ An interactive script to quickstart a new Mac for development purposes
 # Features
 
 Automatically install and configure the following for the Mac:
+
 - Brew (Package Manager)
   - Upgrade with brew
 - Bash (Most recent version as the default shell)
   - Upgrade with brew
 
 Optionally install and/or setup the following programs:
+
 - Git Credentials
   - To print see your id_rsa.pub `cat ~/.ssh/id_rsa.pub`
   - Upgraded by Apple
