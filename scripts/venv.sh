@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Installing virtualenv"
-pip install virtualenv
-echo "Adding Quick Access to make and activate virtualenvs as makevenv and venv"
+python3 -m pip install virtualenv || true
+echo "Adding Quick Access to make and activate virtualenvs as makevenv and vact"
 echo '# Quick Access to build and activate virtualenvs' >> ~/.bash_aliases
 echo 'alias makevenv="python3 -m virtualenv venv && vact"' >> ~/.bash_aliases
 echo 'alias vact="source venv/bin/activate"' >> ~/.bash_aliases

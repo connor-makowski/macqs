@@ -27,11 +27,13 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
+CURRENT_ARCHITECTURE="($(uname -m))"
+
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1="\[\033[01;36m\]$CURRENT_ARCHITECTURE\[\033[00m\]\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\] \$ "
     alias ls='ls -G'
 else
-    PS1='u@\h:\w\$ '
+    PS1="$CURRENT_ARCHITECTURE\u@\h:\w\$ "
 fi
 
 unset color_prompt
@@ -41,8 +43,19 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-BREW_BIN="/opt/homebrew/bin"
-PATH=$BREW_BIN:$PATH
+alias whereis='which -a'
+
+# Update your path to put to put the appropriate brew location first
+# depending on your architecture
+if [[ "$CURRENT_ARCHITECTURE" == "x86_64" ]]; then
+  BREW_BIN="/usr/local/bin"
+  PATH=$BREW_BIN:$PATH
+elif [[ "$CURRENT_ARCHITECTURE" == "arm64" ]]; then
+  BREW_BIN="/opt/homebrew/bin"
+  PATH=$BREW_BIN:$PATH
+fi
+
+
 
 # Source Alias definitions.
 if [ -f ~/.bash_aliases ]; then
