@@ -31,7 +31,7 @@ Optionally install and/or setup the following programs:
   - To access NVM `nvm --help`
   - To access node `node` (upgrade with [nvm](https://github.com/nvm-sh/nvm))
   - To access npm `npm` (upgrade with npm)
-  - To access yarn `yarn` (upgrade with brew)
+  - To access yarn `yarn` (upgrade with npm)
 - Remote services (openVpn and SSH)
   - openVpn (access with `openvpn --config yourfile.config`)
     - Upgrade with brew

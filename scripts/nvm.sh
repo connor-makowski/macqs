@@ -9,5 +9,5 @@ echo "Installing most recent version of Node 14 and NPM"
 nvm install v14
 echo "Node and NPM Install Complete"
 echo "Installing Yarn"
-brew install yarn
+npm install --global yarn
 echo "Yarn install complete"
