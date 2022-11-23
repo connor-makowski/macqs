@@ -10,6 +10,7 @@ add_if_not_present() {
 
 touch ~/.zshrc
 touch ~/.zsh_aliases
+add_if_not_present '# Source aliases' "$HOME/.zshrc"
 add_if_not_present 'source ~/.zsh_aliases' "$HOME/.zshrc"
 
 # Check for Darwin
@@ -102,7 +103,7 @@ read Git
 echo "Install Python 3 (with brew)? (y/n)"
 read Py3
 
-echo "Setup Node (NVM, Node v14 via NVM, NPM via NVM, and Yarn via NPM)? (y/n)"
+echo "Setup Node (NVM, Node v16 via NVM, NPM via NVM, and Yarn via NPM)? (y/n)"
 read NodeJS
 
 echo "Allow remote access to this machine? (y/n)"
@@ -119,13 +120,15 @@ then
   if [ "$ColorPrompt" == "y" ];
   then
     echo "Enabling Color Prompt"
+    add_if_not_present '# Enabling Color Prompt' "$HOME/.zshrc"
     add_if_not_present 'autoload -U colors && colors' "$HOME/.zshrc"
     add_if_not_present 'PS1="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[yellow]%}%~ %{$reset_color%}$ "' "$HOME/.zshrc"
     echo "========="
   fi
   if [ "$UseAliases" == "y" ];
   then
-    echo "Enabling Color Prompt"
+    echo "Using Aliases"
+    add_if_not_present '# Helpful Aliases' "$HOME/.zsh_aliases"
     add_if_not_present "alias ls='ls -G'" "$HOME/.zsh_aliases"
     add_if_not_present "alias ll='ls -alF'" "$HOME/.zsh_aliases"
     add_if_not_present "alias la='ls -A'" "$HOME/.zsh_aliases"
@@ -205,16 +208,13 @@ then
   if [ "$NodeJS" == "y" ];
   then
     echo "Installing NVM"
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-    add_if_not_present 'export NVM_DIR="$HOME/.nvm"' "$HOME/.zshrc"
-    add_if_not_present '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'  "$HOME/.zshrc"
-    add_if_not_present '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'  "$HOME/.zshrc"
     echo "NVM Install Complete"
-    echo "Installing most recent version of Node 14 and NPM"
-    nvm install v14
+    echo "Installing most recent version of Node 16 and NPM"
+    nvm install v16
     echo "Node and NPM Install Complete"
     echo "Installing Yarn"
     npm install --global yarn
