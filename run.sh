@@ -3,14 +3,14 @@
 cd "`dirname $0`"
 
 add_if_not_present() {
-  if !(grep -q "$1" "$2"); then
+  if !(grep -q "$1" $2); then
     echo "$1" >> $2
   fi
 }
 
 touch ~/.zshrc
 touch ~/.zsh_aliases
-add_if_not_present 'source ~/.zsh_aliases' '~/.zshrc'
+add_if_not_present 'source ~/.zsh_aliases' "$HOME/.zshrc"
 
 # Check for Darwin
 if [[ "$(uname -s)" != "Darwin" ]];
@@ -119,18 +119,18 @@ then
   if [ "$ColorPrompt" == "y" ];
   then
     echo "Enabling Color Prompt"
-    add_if_not_present 'autoload -U colors && colors' '~/.zshrc'
-    add_if_not_present 'PS1="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[yellow]%}%~ %{$reset_color%}$ "' '~/.zshrc'
+    add_if_not_present 'autoload -U colors && colors' "$HOME/.zshrc"
+    add_if_not_present 'PS1="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[yellow]%}%~ %{$reset_color%}$ "' "$HOME/.zshrc"
     echo "========="
   fi
   if [ "$UseAliases" == "y" ];
   then
     echo "Enabling Color Prompt"
-    add_if_not_present "alias ls='ls -G'" '~/.zsh_aliases'
-    add_if_not_present "alias ll='ls -alF'" '~/.zsh_aliases'
-    add_if_not_present "alias la='ls -A'" '~/.zsh_aliases'
-    add_if_not_present "alias l='ls -CF'" '~/.zsh_aliases'
-    add_if_not_present "alias whereis='which -a'" '~/.zsh_aliases'
+    add_if_not_present "alias ls='ls -G'" "$HOME/.zsh_aliases"
+    add_if_not_present "alias ll='ls -alF'" "$HOME/.zsh_aliases"
+    add_if_not_present "alias la='ls -A'" "$HOME/.zsh_aliases"
+    add_if_not_present "alias l='ls -CF'" "$HOME/.zsh_aliases"
+    add_if_not_present "alias whereis='which -a'" "$HOME/.zsh_aliases"
     echo "========="
   fi
   if [ "$Git" == "y" ];
@@ -181,9 +181,9 @@ then
       echo "Installing virtualenv for python3.10"
       $BREW_LOCATION/python3.10 -m pip install virtualenv || true
       echo "Adding Quick Access to make and activate virtualenvs as makevenv and vact"
-      add_if_not_present '# Quick Access to build and activate virtualenvs' '~/.zsh_aliases'
-      add_if_not_present 'alias makevenv="python3 -m virtualenv venv && vact"' '~/.zsh_aliases'
-      add_if_not_present 'alias vact="deactivate  > /dev/null 2>&1; source venv/bin/activate"' '~/.zsh_aliases'
+      add_if_not_present '# Quick Access to build and activate virtualenvs' "$HOME/.zsh_aliases"
+      add_if_not_present 'alias makevenv="python3 -m virtualenv venv && vact"' "$HOME/.zsh_aliases"
+      add_if_not_present 'alias vact="deactivate  > /dev/null 2>&1; source venv/bin/activate"' "$HOME/.zsh_aliases"
     }
 
     if [[ "$(which -a python3.10)" != "" ]]; then
@@ -209,9 +209,9 @@ then
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-    add_if_not_present 'export NVM_DIR="$HOME/.nvm"' '~/.zshrc'
-    add_if_not_present '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'  '~/.zshrc'
-    add_if_not_present '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'  '~/.zshrc'
+    add_if_not_present 'export NVM_DIR="$HOME/.nvm"' "$HOME/.zshrc"
+    add_if_not_present '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'  "$HOME/.zshrc"
+    add_if_not_present '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'  "$HOME/.zshrc"
     echo "NVM Install Complete"
     echo "Installing most recent version of Node 14 and NPM"
     nvm install v14
