@@ -5,7 +5,7 @@ An interactive script to quick start a new Mac for development purposes
 # Usage
 
 ```
-curl -o- https://raw.githubusercontent.com/connor-makowski/macqs/main/run.sh | bash
+bash <(curl -o- https://raw.githubusercontent.com/connor-makowski/macqs/main/run.sh)
 ```
 
 
