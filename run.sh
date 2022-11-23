@@ -2,6 +2,16 @@
 
 cd "`dirname $0`"
 
+add_if_not_present() {
+  if !(grep -q "$1" "$2"); then
+    echo "$1" >> $2
+  fi
+}
+
+touch ~/.zshrc
+touch ~/.zsh_aliases
+add_if_not_present 'source ~/.zsh_aliases' '~/.zshrc'
+
 # Check for Darwin
 if [[ "$(uname -s)" != "Darwin" ]];
 then
@@ -12,7 +22,7 @@ fi
 # Validate ZSH is default shell
 SHELL_LOCATION='/bin/zsh'
 
-if [ "$SHELL" != "$SHELL_LOCATION" ];
+if [[ "$SHELL" != "$SHELL_LOCATION" ]];
 then
   echo "zsh (located at $SHELL_LOCATION) must be your default shell to continue"
   echo "Set zsh as your default shell? (y/n)"
@@ -45,16 +55,6 @@ then
     exit 1
   fi
 fi
-
-add_if_not_present() {
-  if !(grep -q "$1" "$2"); then
-    echo "$1" >> $2
-  fi
-}
-
-touch ~/.zshrc
-touch ~/.zsh_aliases
-add_if_not_present 'source ~/.zsh_aliases' '~/.zshrc'
 
 CURRENT_ARCHITECTURE="$(uname -m)"
 if [[ "$CURRENT_ARCHITECTURE" == "x86_64" ]]
